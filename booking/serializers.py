@@ -3,13 +3,18 @@ from django.utils import timezone
 from datetime import timedelta
 from .models import StadiumBooking
 
+
 class BookingSerializer(serializers.ModelSerializer):
     active = serializers.SerializerMethodField(read_only=True)
+    stadium_title = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = StadiumBooking
-        fields = ['id', 'user', 'stadium', 'start_time', 'end_time', 'active']
-        read_only_fields = ['user', 'end_time']
+        fields = ['id', 'stadium', "stadium_title", 'start_time', 'hours', 'active']
+        read_only_fields = ['user']
+
+    def get_stadium_title(self, obj):
+        return obj.stadium.title
 
     def get_active(self, obj):
         now = timezone.now()

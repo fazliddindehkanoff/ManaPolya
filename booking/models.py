@@ -8,7 +8,7 @@ class StadiumBooking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bookings")
     stadium = models.ForeignKey(Stadium, on_delete=models.PROTECT, related_name="booked_times")
     start_time = models.DateTimeField()
-    hours = models.IntegerField(default=1)
+    hours = models.PositiveSmallIntegerField(default=1)
 
     class Meta:
         constraints = [
