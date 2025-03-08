@@ -1,9 +1,10 @@
-from rest_framework import viewsets, filters, status
+from rest_framework import viewsets, filters, status, permissions
 from rest_framework.response import Response
 
 from .models import Stadium, StadiumImages
 from .serializers import StadiumSerializer
 from .pagination import StandardResultsSetPagination
+from .permissions import IsAdminOrOwner, IsAdminOrStadiumOwner
 from .utils import haversine
 
 
@@ -15,6 +16,18 @@ class StadiumViewSet(viewsets.ModelViewSet):
 
     search_fields = ['title', 'address']
     ordering_fields = ['price_per_hour', 'title']
+
+    def get_permissions(self):
+        # For update and delete actions, require the user to be authenticated and pass IsAdminOrOwner check.
+        if self.action in ['update', 'partial_update', 'destroy']:
+            permission_classes = [permissions.IsAuthenticated, IsAdminOrOwner]
+        # For create, you might require authentication as well.
+        elif self.action == 'create':
+            permission_classes = [permissions.IsAuthenticated, IsAdminOrStadiumOwner]
+        else:
+            # For list and retrieve, you can allow any access or adjust as needed.
+            permission_classes = [permissions.AllowAny]
+        return [permission() for permission in permission_classes]
 
     def list(self, request, *args, **kwargs):
         user_lat = request.query_params.get('lat')
