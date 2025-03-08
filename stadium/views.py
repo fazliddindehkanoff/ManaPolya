@@ -18,14 +18,11 @@ class StadiumViewSet(viewsets.ModelViewSet):
     ordering_fields = ['price_per_hour', 'title']
 
     def get_permissions(self):
-        # For update and delete actions, require the user to be authenticated and pass IsAdminOrOwner check.
         if self.action in ['update', 'partial_update', 'destroy']:
             permission_classes = [permissions.IsAuthenticated, IsAdminOrOwner]
-        # For create, you might require authentication as well.
         elif self.action == 'create':
             permission_classes = [permissions.IsAuthenticated, IsAdminOrStadiumOwner]
         else:
-            # For list and retrieve, you can allow any access or adjust as needed.
             permission_classes = [permissions.AllowAny]
         return [permission() for permission in permission_classes]
 
