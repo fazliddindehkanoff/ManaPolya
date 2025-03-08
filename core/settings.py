@@ -1,5 +1,7 @@
-from pathlib import Path
 import environ
+
+from datetime import timedelta
+from pathlib import Path
 
 
 env = environ.Env(
@@ -19,8 +21,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # external apps
     'rest_framework',
     'drf_yasg',
+    'django_filters',
+    # internal apps
     'authentication',
     'stadium'
 ]
@@ -33,6 +38,12 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
