@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     'django_filters',
     # internal apps
     'authentication',
-    'stadium'
+    'stadium',
+    'booking'
 ]
 
 REST_FRAMEWORK = {

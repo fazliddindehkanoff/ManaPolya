@@ -73,4 +73,3 @@ class StadiumViewSet(viewsets.ModelViewSet):
 
         response_serializer = self.get_serializer(stadium)
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
-
