@@ -6,12 +6,6 @@ from django.core.exceptions import ValidationError
 from authentication.models import User
 
 
-class BookingStatusChoices(models.TextChoices):
-    PENDING = "pending", "Kutilmoqda"
-    CONFIRMED = "confirmed", "Tasdiqlandi"
-    CANCELED = "canceled", "Bekor qilindi"
-
-
 class Stadium(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="fields")
     title = models.CharField(max_length=255)
@@ -36,7 +30,6 @@ class StadiumImages(models.Model):
 class StadiumBooking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bookings")
     stadium = models.ForeignKey(Stadium, on_delete=models.PROTECT, related_name="booked_times")
-    status = models.CharField(max_length=10, choices=BookingStatusChoices.choices, default=BookingStatusChoices.PENDING)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
 
